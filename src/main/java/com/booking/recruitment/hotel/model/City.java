@@ -1,5 +1,7 @@
 package com.booking.recruitment.hotel.model;
 
+import com.google.gson.Gson;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -59,6 +61,12 @@ public class City implements Serializable {
 
   public void setCityCentreLongitude(double cityCentreLongitude) {
     this.cityCentreLongitude = cityCentreLongitude;
+  }
+
+  @Override
+  public String toString() {
+    Gson gson = new Gson();
+    return gson.toJson(this);
   }
 
   @Override
