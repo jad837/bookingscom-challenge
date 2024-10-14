@@ -1,9 +1,11 @@
 package com.booking.recruitment.hotel.controller;
 
+import com.booking.recruitment.hotel.exception.ElementNotFoundException;
 import com.booking.recruitment.hotel.model.Hotel;
 import com.booking.recruitment.hotel.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,4 +31,24 @@ public class HotelController {
   public Hotel createHotel(@RequestBody Hotel hotel) {
     return hotelService.createNewHotel(hotel);
   }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<String> getHotel(@PathVariable Long id){
+    try {
+      return ResponseEntity.ok(hotelService.getHotel(id).toString());
+    } catch (ElementNotFoundException e) {
+      return new ResponseEntity<>("Hotel Not found", HttpStatus.NOT_FOUND);
+    }
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deleteHotel(@PathVariable Long id){
+    return ResponseEntity.ok().build();
+
+  }
+
+
+
+
 }
+
