@@ -33,6 +33,7 @@ public class SearchController {
         // brute force it for now, go through all hotels and find closest to city
         List<Hotel> hotels = hotelService.getHotelsByCity(cityId);
         City city = cityService.getCityById(cityId);
+        System.out.println(cityId);
         PriorityQueue<Hotel> hotelsRankedByCityCenter = new PriorityQueue<>(hotels.size(), new Comparator<Hotel>() {
             @Override
             public int compare(Hotel o1, Hotel o2) {
@@ -41,6 +42,7 @@ public class SearchController {
                 return Double.compare(hotel1Dist, hotel2Dist);
             }
         });
+        hotelsRankedByCityCenter.addAll(hotels);
         List<Hotel> top3Hotels = new ArrayList<>(3);
 
         for(int i=0; i<3; i++) {
