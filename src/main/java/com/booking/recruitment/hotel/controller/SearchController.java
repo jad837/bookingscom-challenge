@@ -1,6 +1,7 @@
 package com.booking.recruitment.hotel.controller;
 
 
+import com.booking.recruitment.hotel.exception.ElementNotFoundException;
 import com.booking.recruitment.hotel.model.City;
 import com.booking.recruitment.hotel.model.Hotel;
 import com.booking.recruitment.hotel.service.CityService;
@@ -30,9 +31,6 @@ public class SearchController extends BaseController {
         // brute force it for now, go through all hotels and find closest to city
         List<Hotel> hotels = hotelService.getHotelsByCity(cityId);
         City city = cityService.getCityById(cityId);
-        if(city == null){
-            return Collections.emptyList();
-        }
         System.out.println(cityId);
         PriorityQueue<Hotel> hotelsRankedByCityCenter = new PriorityQueue<>(hotels.size(), new Comparator<Hotel>() {
             @Override

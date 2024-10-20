@@ -34,20 +34,12 @@ public class HotelController extends BaseController {
 
   @GetMapping("/{id}")
   public ResponseEntity<String> getHotel(@PathVariable Long id){
-    try {
       return ResponseEntity.ok(hotelService.getHotel(id).toString());
-    } catch (ElementNotFoundException e) {
-      return new ResponseEntity<>("Hotel Not found", HttpStatus.NOT_FOUND);
-    }
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteHotel(@PathVariable Long id){
-    try {
-      hotelService.deleteHotel(id);
-    } catch (ElementNotFoundException e){
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+    hotelService.deleteHotel(id);
     return ResponseEntity.ok().build();
 
   }

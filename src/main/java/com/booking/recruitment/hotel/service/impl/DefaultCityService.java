@@ -22,7 +22,7 @@ class DefaultCityService implements CityService {
   @Override
   public City getCityById(Long id) {
     return cityRepository
-        .findById(id).orElse(null);
+        .findById(id).orElseThrow(() -> new ElementNotFoundException("HOTEL NOT FOUND"));
   }
 
   @Override
