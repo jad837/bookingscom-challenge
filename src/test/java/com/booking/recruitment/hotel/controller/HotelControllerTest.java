@@ -1,5 +1,7 @@
 package com.booking.recruitment.hotel.controller;
 
+import com.booking.recruitment.hotel.Constants;
+import com.booking.recruitment.hotel.exception.ElementNotFoundException;
 import com.booking.recruitment.hotel.model.City;
 import com.booking.recruitment.hotel.model.Hotel;
 import com.booking.recruitment.hotel.repository.CityRepository;
@@ -80,4 +82,22 @@ class HotelControllerTest {
                 () -> new IllegalStateException("New Hotel has not been saved in the repository")),
         equalTo(newHotel));
   }
+
+  @Test
+  @DisplayName("When hotel is searched by id")
+  void hotelFindById() throws Exception {
+      Hotel hotel = mapper.readValue(
+            mockMvc
+                    .perform(
+                            get("/hotel/1")
+                                    .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().is2xxSuccessful())
+                    .andReturn()
+                    .getResponse()
+                    .getContentAsString(),
+            Hotel.class);
+      assertThat(repository.findById(1L).orElseThrow(() -> new ElementNotFoundException(String.format(Constants.HOTEL_NOT_FOUND, 1))), equalTo(hotel));
+  }
+
+
 }
