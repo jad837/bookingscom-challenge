@@ -9,10 +9,7 @@ import com.booking.recruitment.hotel.util.Haversine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 @RestController
 @RequestMapping("/search")
@@ -33,6 +30,9 @@ public class SearchController {
         // brute force it for now, go through all hotels and find closest to city
         List<Hotel> hotels = hotelService.getHotelsByCity(cityId);
         City city = cityService.getCityById(cityId);
+        if(city == null){
+            return Collections.emptyList();
+        }
         System.out.println(cityId);
         PriorityQueue<Hotel> hotelsRankedByCityCenter = new PriorityQueue<>(hotels.size(), new Comparator<Hotel>() {
             @Override

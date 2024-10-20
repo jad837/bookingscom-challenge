@@ -58,6 +58,7 @@ class DefaultHotelService implements HotelService {
     if(optionalHotel.isPresent()){
       Hotel hotel = optionalHotel.get();
       hotel.setDeleted(true);
+      hotelRepository.save(hotel);
     } else {
       throw new ElementNotFoundException(String.format(Constants.HOTEL_NOT_FOUND, id));
     }

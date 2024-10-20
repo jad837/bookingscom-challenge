@@ -43,7 +43,12 @@ public class HotelController {
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteHotel(@PathVariable Long id){
-    return ResponseEntity.ok().build();
+    try {
+      hotelService.deleteHotel(id);
+      return ResponseEntity.ok().build();
+    } catch (Exception e){
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
   }
 

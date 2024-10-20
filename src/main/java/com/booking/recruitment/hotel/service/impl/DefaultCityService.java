@@ -22,8 +22,7 @@ class DefaultCityService implements CityService {
   @Override
   public City getCityById(Long id) {
     return cityRepository
-        .findById(id)
-        .orElseThrow(() -> new ElementNotFoundException("Could not find city with ID provided"));
+        .findById(id).orElse(null);
   }
 
   @Override
