@@ -6,6 +6,9 @@ import com.booking.recruitment.hotel.exception.ElementNotFoundException;
 import com.booking.recruitment.hotel.model.Hotel;
 import com.booking.recruitment.hotel.repository.HotelRepository;
 import com.booking.recruitment.hotel.service.HotelService;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 class DefaultHotelService implements HotelService {
   private final HotelRepository hotelRepository;
 
@@ -49,7 +53,12 @@ class DefaultHotelService implements HotelService {
 
   @Override
   public Hotel getHotel(Long id) {
-    return this.findHotel(id).orElseThrow(() -> new ElementNotFoundException(String.format(Constants.HOTEL_NOT_FOUND, id)));
+    Optional<Hotel> hotel = this.findHotel(id);
+
+    if(!hotel.isPresent() || hotel.get().isDeleted()){
+      throw new ElementNotFoundException(String.format(Constants.HOTEL_NOT_FOUND, id));
+    }
+    return hotel.get();
   }
 
   @Override
@@ -60,6 +69,7 @@ class DefaultHotelService implements HotelService {
       hotel.setDeleted(true);
       hotelRepository.save(hotel);
     } else {
+      log.error("Error element not found delete hotel");
       throw new ElementNotFoundException(String.format(Constants.HOTEL_NOT_FOUND, id));
     }
   }

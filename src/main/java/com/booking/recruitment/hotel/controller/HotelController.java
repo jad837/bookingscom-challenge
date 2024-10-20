@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/hotel")
-public class HotelController {
+public class HotelController extends BaseController {
   private final HotelService hotelService;
 
   @Autowired
@@ -45,10 +45,10 @@ public class HotelController {
   public ResponseEntity<Void> deleteHotel(@PathVariable Long id){
     try {
       hotelService.deleteHotel(id);
-      return ResponseEntity.ok().build();
-    } catch (Exception e){
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    } catch (ElementNotFoundException e){
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+    return ResponseEntity.ok().build();
 
   }
 

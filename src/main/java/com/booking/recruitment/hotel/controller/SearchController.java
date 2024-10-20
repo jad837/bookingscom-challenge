@@ -13,7 +13,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/search")
-public class SearchController {
+public class SearchController extends BaseController {
     private final HotelService hotelService;
     private final CityService cityService;
 
