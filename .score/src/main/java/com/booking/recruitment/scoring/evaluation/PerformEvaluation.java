@@ -3,6 +3,7 @@ package com.booking.recruitment.scoring.evaluation;
 public class PerformEvaluation {
   @SuppressWarnings("java:S106")
   public static void main(String[] args) {
+    System.setProperty("RestAssured.defaultParser", "Parser.JSON");
     HackerrankYaml hackerrankYaml = new HackerrankYaml();
     TestResult testResult = new TestResult(hackerrankYaml);
     TestEvaluator testEvaluator = new TestEvaluator(hackerrankYaml, testResult);
