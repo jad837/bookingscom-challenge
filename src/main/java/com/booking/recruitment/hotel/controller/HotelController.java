@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -37,8 +38,7 @@ public class HotelController extends BaseController {
 
   @DeleteMapping(value = "/{id}", produces = "application/json")
   public Hotel deleteHotel(@PathVariable Long id){
-    hotelService.deleteHotel(id);
-    return null;
+    return hotelService.deleteHotel(id);
   }
 
 
