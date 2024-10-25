@@ -26,7 +26,7 @@ public class SearchController extends BaseController {
         this.cityService = cityService;
     }
 
-    @GetMapping("/{cityId}")
+    @GetMapping(value = "/{cityId}", produces = "application/json")
     public List<Hotel> searchClosestToCityCenter(@PathVariable Long cityId, @RequestParam String sortBy){
         // request param sortby is assumed to be 'distance' every time & not actually a number or anything :)
         // as it is assumed to be a string I am not going to take it into consideration currently
