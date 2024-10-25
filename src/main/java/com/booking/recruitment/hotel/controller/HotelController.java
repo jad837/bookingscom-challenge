@@ -30,12 +30,12 @@ public class HotelController extends BaseController {
     return hotelService.createNewHotel(hotel);
   }
 
-  @GetMapping("/{id}")
+  @GetMapping(value = "/{id}", produces = "application/json")
   public Hotel getHotel(@PathVariable Long id){
       return hotelService.getHotel(id);
   }
 
-  @DeleteMapping("/{id}")
+  @DeleteMapping(value = "/{id}", produces = "application/json")
   public void deleteHotel(@PathVariable Long id){
     hotelService.deleteHotel(id);
   }
