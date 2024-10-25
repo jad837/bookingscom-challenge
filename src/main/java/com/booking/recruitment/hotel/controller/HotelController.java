@@ -1,11 +1,9 @@
 package com.booking.recruitment.hotel.controller;
 
-import com.booking.recruitment.hotel.exception.ElementNotFoundException;
 import com.booking.recruitment.hotel.model.Hotel;
 import com.booking.recruitment.hotel.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,15 +31,13 @@ public class HotelController extends BaseController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<String> getHotel(@PathVariable Long id){
-      return ResponseEntity.ok(hotelService.getHotel(id).toString());
+  public Hotel getHotel(@PathVariable Long id){
+      return hotelService.getHotel(id);
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteHotel(@PathVariable Long id){
+  public void deleteHotel(@PathVariable Long id){
     hotelService.deleteHotel(id);
-    return ResponseEntity.ok().build();
-
   }
 
 
