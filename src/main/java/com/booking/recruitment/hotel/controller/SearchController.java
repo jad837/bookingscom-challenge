@@ -36,6 +36,9 @@ public class SearchController extends BaseController {
         }
         City city = cityService.getCityById(cityId);
         List<Hotel> hotels = hotelService.getHotelsByCity(cityId);
+        if(hotels.isEmpty()){
+            return Collections.emptyList();
+        }
         PriorityQueue<Hotel> hotelsRankedByCityCenter = new PriorityQueue<>(hotels.size(), new Comparator<Hotel>() {
             @Override
             public int compare(Hotel o1, Hotel o2) {
