@@ -36,8 +36,9 @@ public class HotelController extends BaseController {
   }
 
   @DeleteMapping(value = "/{id}", produces = "application/json")
-  public void deleteHotel(@PathVariable Long id){
+  public Hotel deleteHotel(@PathVariable Long id){
     hotelService.deleteHotel(id);
+    return null;
   }
 
 
