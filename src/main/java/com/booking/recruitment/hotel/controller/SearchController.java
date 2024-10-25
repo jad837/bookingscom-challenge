@@ -1,6 +1,7 @@
 package com.booking.recruitment.hotel.controller;
 
 
+import com.booking.recruitment.hotel.exception.BadRequestException;
 import com.booking.recruitment.hotel.exception.ElementNotFoundException;
 import com.booking.recruitment.hotel.model.City;
 import com.booking.recruitment.hotel.model.Hotel;
@@ -8,6 +9,7 @@ import com.booking.recruitment.hotel.service.CityService;
 import com.booking.recruitment.hotel.service.HotelService;
 import com.booking.recruitment.hotel.util.Haversine;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -29,9 +31,11 @@ public class SearchController extends BaseController {
         // request param sortby is assumed to be 'distance' every time & not actually a number or anything :)
         // as it is assumed to be a string I am not going to take it into consideration currently
         // brute force it for now, go through all hotels and find closest to city
-        List<Hotel> hotels = hotelService.getHotelsByCity(cityId);
+        if(!sortBy.equals("distance")){
+            throw new BadRequestException("Sort by parameter is invalid");
+        }
         City city = cityService.getCityById(cityId);
-        System.out.println(cityId);
+        List<Hotel> hotels = hotelService.getHotelsByCity(cityId);
         PriorityQueue<Hotel> hotelsRankedByCityCenter = new PriorityQueue<>(hotels.size(), new Comparator<Hotel>() {
             @Override
             public int compare(Hotel o1, Hotel o2) {

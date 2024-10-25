@@ -1,5 +1,6 @@
 package com.booking.recruitment.hotel.controller;
 
+import com.booking.recruitment.hotel.exception.BadRequestException;
 import com.booking.recruitment.hotel.exception.ElementNotFoundException;
 import com.booking.recruitment.hotel.exception.ElementWithSameIDAlreadyExistsException;
 import lombok.extern.slf4j.Slf4j;
@@ -29,5 +30,14 @@ public class BaseController {
         }
         log.error("ERROR CONFLICT");
         return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(value = BadRequestException.class)
+    public ResponseEntity<String> BadRequestExceptionHandler(HttpServletRequest httpServletRequest, Exception e) throws Exception {
+        if(AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null) {
+            throw e;
+        }
+        log.error("ERROR BAD REQUEST PARAM");
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
