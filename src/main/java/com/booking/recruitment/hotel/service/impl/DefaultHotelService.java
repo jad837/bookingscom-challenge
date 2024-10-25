@@ -64,7 +64,7 @@ class DefaultHotelService implements HotelService {
   @Override
   public void deleteHotel(Long id) {
     Optional<Hotel> optionalHotel = this.findHotel(id);
-    if(optionalHotel.isPresent()){
+    if(optionalHotel.isPresent() && !optionalHotel.get().isDeleted()){
       Hotel hotel = optionalHotel.get();
       hotel.setDeleted(true);
       hotelRepository.save(hotel);
