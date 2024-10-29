@@ -1,4 +1,4 @@
-# Bookings.COM Hiring challenge
+# Bookings.COM challenge
 
 ### Write endpoints as per given instructions and should follow the format.
 
