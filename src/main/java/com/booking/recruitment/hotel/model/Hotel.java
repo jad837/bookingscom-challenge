@@ -1,7 +1,6 @@
 package com.booking.recruitment.hotel.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.google.gson.Gson;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -146,11 +145,6 @@ public class Hotel implements Serializable {
     return result;
   }
 
-  @Override
-  public String toString() {
-    Gson gson = new Gson();
-    return gson.toJson(this);
-  }
 
   public static Builder builder() {
     return new Builder();
