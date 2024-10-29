@@ -28,7 +28,7 @@ class DefaultHotelService implements HotelService {
 
   @Override
   public List<Hotel> getAllHotels() {
-    return hotelRepository.findAll();
+    return hotelRepository.findAll().stream().filter(hotel -> !hotel.isDeleted()).collect(Collectors.toList());
   }
 
   @Override
