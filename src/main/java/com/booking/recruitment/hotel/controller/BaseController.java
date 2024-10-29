@@ -1,13 +1,12 @@
 package com.booking.recruitment.hotel.controller;
 
+import com.booking.recruitment.hotel.dto.ErrorResponse;
 import com.booking.recruitment.hotel.exception.BadRequestException;
 import com.booking.recruitment.hotel.exception.ElementNotFoundException;
 import com.booking.recruitment.hotel.exception.ElementWithSameIDAlreadyExistsException;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.reflect.AnnotationFinder;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -18,26 +17,29 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class BaseController {
     @ExceptionHandler(value = ElementNotFoundException.class)
-    public ResponseEntity<String> defaultElementNotFoundHandler(HttpServletRequest httpServletRequest, Exception e) throws Exception {
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse defaultElementNotFoundHandler(HttpServletRequest httpServletRequest, Exception e) throws Exception {
         log.error("ERROR NOT FOUND");
-        return ResponseEntity.notFound().build();
+        return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler(value = ElementWithSameIDAlreadyExistsException.class)
-    public ResponseEntity<String> defaultElementAlreadyExistsHandler(HttpServletRequest httpServletRequest, Exception e) throws Exception {
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse defaultElementAlreadyExistsHandler(HttpServletRequest httpServletRequest, Exception e) throws Exception {
         if(AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null) {
             throw e;
         }
         log.error("ERROR CONFLICT");
-        return new ResponseEntity<>(HttpStatus.CONFLICT);
+        return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler(value = BadRequestException.class)
-    public ResponseEntity<String> BadRequestExceptionHandler(HttpServletRequest httpServletRequest, Exception e) throws Exception {
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse BadRequestExceptionHandler(HttpServletRequest httpServletRequest, Exception e) throws Exception {
         if(AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null) {
             throw e;
         }
         log.error("ERROR BAD REQUEST PARAM");
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ErrorResponse(e.getMessage());
     }
 }
